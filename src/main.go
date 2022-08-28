@@ -11,6 +11,7 @@ func init() {
 	seed := flag.Bool("seed", true, "seed db")
 	flag.Parse()
 	if *migrate {
+		fmt.Println("Migrating in progress")
 		database.Migrate(*seed)
 	}
 }

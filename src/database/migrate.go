@@ -1,21 +1,26 @@
 package database
 
-var shema = `
-DROP TABLE IF EXIST countries;
-DROP TABLE IF EXIST cities;
-CREATE TABLE countries (
-    id int NOT NULL PRIMARY KEY,
-    country varchar(255),
-);
-CREATE TABLE cities (
-    id int NOT NULL PRIMARY KEY,
-    city varchar(255),
-    country_id int,
-);
-`
+import "fmt"
 
 func Migrate(seed bool) {
-	DB.MustExec(shema)
+	schema := []string{
+		"DROP TABLE IF EXISTS `countries`;",
+		"DROP TABLE IF EXISTS `cities`;",
+		"CREATE TABLE `countries` (id INT NOT NULL PRIMARY KEY, country CHAR(255));",
+		"CREATE TABLE `cities` ( id INT NOT NULL PRIMARY KEY, country_id INT, city VARCHAR(255));",
+	}
+
+	tx := DB.MustBegin()
+	for _, v := range schema {
+		tx.MustExec(v)
+	}
+	err := tx.Commit()
+	if err != nil {
+		panic("Smth went wrong in transaction")
+	}
+
+	fmt.Println("Migrating complete")
+
 	if seed {
 		Seed()
 	}
