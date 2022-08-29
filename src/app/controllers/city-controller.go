@@ -1,21 +1,23 @@
 package controllers
 
-func CityIndex() {
+import "github.com/gin-gonic/gin"
+
+func CityIndex(c *gin.Context) {
 
 }
 
-func CityShow() {
+func CityShow(c *gin.Context) {
 
 }
 
-func CityCreate() {
+func CityCreate(c *gin.Context) {
 
 }
 
-func CityUpdate() {
+func CityUpdate(c *gin.Context) {
 
 }
 
-func CityDelete() {
+func CityDelete(c *gin.Context) {
 
 }

@@ -6,16 +6,27 @@ import (
 	"fmt"
 )
 
+var db_interaction bool
+
 func init() {
-	migrate := flag.Bool("migrate", true, "migrate database tables")
-	seed := flag.Bool("seed", true, "seed db")
+	db_interaction = false
+	migrate := flag.Bool("migrate", false, "migrate database tables")
+	seed := flag.Bool("seed", false, "seed db")
 	flag.Parse()
 	if *migrate {
 		fmt.Println("Migrating in progress")
 		database.Migrate(*seed)
+		db_interaction = true
+	}
+	if *seed && !*migrate {
+		fmt.Println("Seeding without migrating")
+		database.Seed()
+		db_interaction = true
 	}
 }
 
 func main() {
-	fmt.Println("hrllo")
+	if !db_interaction {
+		api()
+	}
 }

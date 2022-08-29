@@ -1,6 +1,7 @@
 package models
 
 type Country struct {
-	id      int
-	country string
+	Id      int
+	Country string
+	Cities  []City
 }
